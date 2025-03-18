@@ -66,8 +66,8 @@ app.get("/api/persons/:id", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
-  let person = persons.filter((person) => person.id !== id);
-  response.send(person);
+  let personFilter = persons.filter((person) => person.id !== id);
+  response.send(personFilter);
   response.status(204).end();
 });
 

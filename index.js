@@ -32,6 +32,16 @@ let persons = [
   },
 ];
 
+const generateId = () => {
+  const randomId =
+    persons.length > 0
+      ? Math.random(...persons.map((p) => p.id))
+          .toString(30)
+          .substring(2)
+      : 0;
+  return randomId;
+};
+
 const date = new Date();
 
 app.get("/api/persons", (request, response) => {
@@ -60,12 +70,6 @@ app.delete("/api/persons/:id", (request, response) => {
   response.send(person);
   response.status(204).end();
 });
-
-const generateId = () => {
-  const randomId =
-    persons.length > 0 ? Math.random(...persons.map((p) => p.id)) : 0;
-  return randomId * 1000;
-};
 
 app.post(
   "/api/persons",

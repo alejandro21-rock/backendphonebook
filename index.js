@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/person");
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(express.json());
@@ -10,8 +10,6 @@ app.use(cors());
 app.use(express.static("dist"));
 morgan.token("body", (req) => JSON.stringify(req.body));
 app.use(morgan("tiny"));
-
-let persons = [];
 
 const date = new Date();
 app.get("/info", (request, response) => {
@@ -32,12 +30,10 @@ app.get("/api/persons/:id", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response, next) => {
-  Person.findOneAndDelete(request.params.id)
-    .then((result) => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
+app.delete("/api/persons/:id", (request, response) => {
+  Person.findByIdAndDelete(request.params.id).then((result) => {
+    response.status(204).end();
+  });
 });
 
 app.post(
